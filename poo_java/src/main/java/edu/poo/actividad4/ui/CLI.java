@@ -1,5 +1,8 @@
 package edu.poo.actividad4.ui;
 
+import edu.poo.actividad4.models.Professor;
+import edu.poo.actividad4.process.ProfessorManager;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -45,18 +48,28 @@ public class CLI {
             switch(opcMenu){
                 case 1:
                     System.out.println("Ingrese el nombre del profesor: ");
-                    String nomProfesor = scanner.nextLine();
-                    System.out.println("Ingrese el numero de nomina: ");
-                    int numNomina = scanner.nextInt();
-                    scanner.nextLine();
+                    String name = scanner.nextLine();
 
-                    System.out.println("Ingrese el numero de maeterias que tendra el profesor: ");
-                    scanner.nextInt();
-                    
+                    System.out.print("Ingrese el salario por hora: ");
+                    double hourlySalary = scanner.nextDouble();
+
+                    System.out.println("Ingrese el numero de materias que tendra el profesor: ");
+                    int amountOfSubjects = scanner.nextInt();
+
+                    // Create Professor object
+                    Professor professor = new Professor(name, hourlySalary, amountOfSubjects);
+
+                    // Calculate salary
+                    double totalSalary = ProfessorManager.calculateSalary(professor);
+
+                    // Display result
+                    System.out.println("El salario total del profesor " + professor.getName() + " es: " + totalSalary);
+
+                    scanner.nextLine(); // Consume the newline left by nextInt()
+                    break;
 
 
 
-                break;
 
 
             }
@@ -64,7 +77,7 @@ public class CLI {
 
         }
 
-
+        runApp();
      
         
 
@@ -72,5 +85,5 @@ public class CLI {
 
 
 
-
+//lista de materias, salario predefinido para lala
 }
