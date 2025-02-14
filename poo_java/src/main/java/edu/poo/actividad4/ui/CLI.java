@@ -3,13 +3,15 @@ package edu.poo.actividad4.ui;
 import edu.poo.actividad4.models.Professor;
 import edu.poo.actividad4.process.ProfessorManager;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class CLI {
 
     static Language language = new Language();
-
+    static List<Professor> professors = new ArrayList<>();
     /**
      * Metodo que se encarga de mostrar el menu
      */
@@ -28,11 +30,8 @@ public class CLI {
 
 
     public static void runApp(){
-
         language = new Es();
         Scanner scanner = new Scanner(System.in);
-
-
 
         int opcMenu = 0;
         while(opcMenu != 8){
@@ -50,40 +49,28 @@ public class CLI {
                     System.out.println("Ingrese el nombre del profesor: ");
                     String name = scanner.nextLine();
 
-                    System.out.print("Ingrese el salario por hora: ");
-                    double hourlySalary = scanner.nextDouble();
-
                     System.out.println("Ingrese el numero de materias que tendra el profesor: ");
                     int amountOfSubjects = scanner.nextInt();
 
-                    // Create Professor object
+                    double hourlySalary = 10;
                     Professor professor = new Professor(name, hourlySalary, amountOfSubjects);
 
-                    // Calculate salary
+                    professors.add(professor);
                     double totalSalary = ProfessorManager.calculateSalary(professor);
 
-                    // Display result
-                    System.out.println("El salario total del profesor " + professor.getName() + " es: " + totalSalary);
+                    System.out.println("El salario total del profesor " + professor.getName() + " es: " + totalSalary + "\n\n\n");
 
-                    scanner.nextLine(); // Consume the newline left by nextInt()
+                    scanner.nextLine();
                     break;
-
-
+                case 6:
+                for(Professor p : professors){
+                    System.out.println("Nombre: " + p.getName() + ", Salario por hora: " + p.getHourlySalary() + ", Numero de materias: " + p.getSubjects() + ", Salario semanal: " + ProfessorManager.calculateSalary(p));
+                }
+                break;
 
 
 
             }
-
-
         }
-
-        runApp();
-     
-        
-
     }
-
-
-
-//lista de materias, salario predefinido para lala
 }
