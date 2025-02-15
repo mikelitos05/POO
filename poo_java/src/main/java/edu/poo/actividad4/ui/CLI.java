@@ -1,8 +1,10 @@
 package edu.poo.actividad4.ui;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import edu.poo.actividad4.models.Professor;
 import edu.poo.actividad4.process.CourseManager;
@@ -63,9 +65,19 @@ public class CLI {
         }
     }
 
+
+
+    public static String normalizeString(String input) {
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(normalized).replaceAll("").toLowerCase();
+    }
+    
     public static void runApp(){
         SubjectManager subjectManager = new SubjectManager();
         CourseManager courseManager = new CourseManager();
+        subjectManager.preloadSubjects();
+
         language = new Es();
         Scanner scanner = new Scanner(System.in);
 
@@ -74,12 +86,12 @@ public class CLI {
         int opcMenu = 0;
         while(opcMenu != 8){
             showMenu();
-
             try{
                 opcMenu = scanner.nextInt();
                 scanner.nextLine();
             }catch (InputMismatchException e){
                 System.out.println(language.INVALID_OPTION);
+                scanner.nextLine();
             }
 
             switch(opcMenu){
@@ -123,12 +135,14 @@ public class CLI {
                         for (int i = 1; i <= 3; i++) {
                             System.out.print("Ingrese el nombre de la materia " + i + ": ");
                             String subjectName = scanner.nextLine();
-                            
+                            String normalizedSubjectName = normalizeString(subjectName);
+
                             while (subjects.contains(subjectName) || subjectManager.subjectValidator(subjectName)) {
                                 System.out.println("La materia ya ha sido seleccionada o no existe. Por favor, elija otra materia.");
                                 System.out.print("Ingrese el nombre de la materia " + i + ": ");
                                 subjectName = scanner.nextLine();
                             }
+                            subjects.add(subjectName);
                         }
                         courseManager.addCourse(idCurso, subjects);
                     }
@@ -153,9 +167,11 @@ public class CLI {
                     
                 break;
                 case 5:
-                    
+                    showCourses(courseManager);
                 break;
-                
+                case 6:
+                    showSubjects(subjectManager);
+                break;
 
             }
 

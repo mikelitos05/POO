@@ -24,10 +24,6 @@ public class Subject {
         return hours;
     }
 
-    @Override
-    public String toString() {
-        return "Subject{" + "name=" + name + ", credits=" + credits + ", hours=" + hours + '}';
-    }
 
 
 

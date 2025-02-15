@@ -26,10 +26,20 @@ public class SubjectManager {
         }
         return true;
     }
-    
+
+    public void preloadSubjects() {
+        addSubject("Matemáticas", 40, 4);
+        addSubject("Física", 35, 3);
+        addSubject("Química", 30, 3);
+        addSubject("Historia", 25, 2);
+        addSubject("Literatura", 20, 2);
+    }
+
+
     public List<Subject> getSubjects() {
         return subjects;
     }
+
     
 
 }
