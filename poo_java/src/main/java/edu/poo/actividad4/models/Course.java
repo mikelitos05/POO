@@ -7,13 +7,25 @@ public class Course {
 
     private String idCourse;
     private List<Subject> subjects;
+    private List<Student> students;
+
+
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
 
     /**
      * Metodo constructor de curso
      */
-    public Course(String idCourse, List<Subject> subjects) {
+    public Course(String idCourse, List<Subject> subjects,List<Student> students) {
         this.idCourse = idCourse;
         this.subjects = subjects;
+        this.students = students;
     }
 
     public String getIdCourse() {

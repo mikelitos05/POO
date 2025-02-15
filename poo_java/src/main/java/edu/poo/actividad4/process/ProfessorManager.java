@@ -3,6 +3,9 @@ package edu.poo.actividad4.process;
 import edu.poo.actividad4.models.Professor;
 
 public class ProfessorManager {
+    /**
+     * Metodo que calcula el salario de un profesor
+     */
     public static double calculateSalary(Professor professor) {
         double multiplier;
 

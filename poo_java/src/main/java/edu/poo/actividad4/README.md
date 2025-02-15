@@ -55,3 +55,6 @@ Permitir que el alumno se registre
 ## **Diagrama de flujo**
 
 ![Diagrama de flujo](diagramas/image.png)
+
+## **Diagrama de clases**
+![Diagrama de clases](<diagramas/Diagrama de clases.jpeg>)

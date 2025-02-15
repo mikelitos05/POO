@@ -1,15 +1,16 @@
 package edu.poo.actividad4.ui;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
+import edu.poo.actividad4.models.Course;
 import edu.poo.actividad4.models.Professor;
+import edu.poo.actividad4.models.Subject;
 import edu.poo.actividad4.process.CourseManager;
 import edu.poo.actividad4.process.ProfessorManager;
+import edu.poo.actividad4.process.StudentManager;
 import edu.poo.actividad4.process.SubjectManager;
 
 public class CLI {
@@ -44,6 +45,7 @@ public class CLI {
             System.out.println("Nombre de la materia: " + subjectManager.getSubjects().get(i).getName());
             System.out.println("Numero de creditos de la materia: " + subjectManager.getSubjects().get(i).getCredits());
             System.out.println("Numero de horas de la materia: " + subjectManager.getSubjects().get(i).getHours());
+            System.out.println("Numero de alumnos inscritos en la materia: " + subjectManager.getSubjects().get(i).getStudents().size());
             System.out.println("==========================================================================================");
         }
     }
@@ -54,7 +56,9 @@ public class CLI {
     public static void showCourses(CourseManager courseManager){
         int creditos = 0;
         System.out.println("Cursos: ");
+        
         for(int i = 0; i < courseManager.getCourses().size(); i++){
+            System.out.println("==========================================================================================");
             System.out.println("ID del curso: " + courseManager.getCourses().get(i).getIdCourse());
             System.out.println("Materias del curso: ");
             for(int j = 0; j < courseManager.getCourses().get(i).getSubjects().size(); j++){
@@ -63,22 +67,27 @@ public class CLI {
                 creditos += courseManager.getCourses().get(i).getSubjects().get(j).getCredits();
                 System.out.println("Numero de horas de la materia: " + courseManager.getCourses().get(i).getSubjects().get(j).getHours());
             }
-            System.out.println("Numero de creditos del curso: " + creditos);
+            System.out.println("==========================================================================================");
+            System.out.println("Numero de creditos totales del curso: " + creditos);
+            System.out.println("==========================================================================================");
         }
     }
 
 
 
     public static String normalizeString(String input) {
-        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return pattern.matcher(normalized).replaceAll("").toLowerCase();
+        return input.toLowerCase();
     }
 
+    /**
+     * Metodo que se encarga de correr la aplicacion
+     */
     public static void runApp(){
         SubjectManager subjectManager = new SubjectManager();
         CourseManager courseManager = new CourseManager();
+        StudentManager studentManager = new StudentManager();
         subjectManager.preloadSubjects();
+        courseManager.preloadCourses();
 
         language = new Es();
         Scanner scanner = new Scanner(System.in);
@@ -118,7 +127,7 @@ public class CLI {
                     // Display result
                     System.out.println("El salario total del profesor " + professor.getName() + " es: " + totalSalary);
 
-                    scanner.nextLine(); // Consume the newline left by nextInt()
+                    scanner.nextLine(); 
                     break;
                 case 2:
                     System.out.println("Ingrese la matricula del alumno: ");
@@ -127,28 +136,42 @@ public class CLI {
                     String nomAlumno = scanner.nextLine();
                     System.out.println("Ingrese la edad del alumno: ");
                     int edadAlumno = scanner.nextInt();
-                    System.out.println("Ingrese el curso del alumno: ");
-                    //Lista del curso del alumno
+                    scanner.nextLine();
+                    System.out.println("Ingrese el nombre curso del alumno: ");
+                    showCourses(courseManager);
+                    String cursoAlumno = scanner.nextLine();
+                    Course curso = courseManager.getCourseById(cursoAlumno);
+                    if (curso != null) {
+                        List<Subject> materiasAlumno = curso.getSubjects();
+                        studentManager.addStudent(matricula, nomAlumno, edadAlumno, curso, materiasAlumno);
+                        System.out.println("Alumno registrado exitosamente.");
+                    } else {
+                        System.out.println("El curso no existe.");
+                    }
                     break;
                 case 3:
                     if(subjectManager.getSubjects().size() >= 3){
                         System.out.print("\nIngrese la clave del curso: ");
                         String idCurso = scanner.nextLine();
                         showSubjects(subjectManager);
-                        ArrayList<String> subjects = new ArrayList<>();
+                        ArrayList<Subject> subjects = new ArrayList<>();
+                        
                         for (int i = 1; i <= 3; i++) {
                             System.out.print("Ingrese el nombre de la materia " + i + ": ");
                             String subjectName = scanner.nextLine();
                             String normalizedSubjectName = normalizeString(subjectName);
 
-                            while (subjects.contains(subjectName) || subjectManager.subjectValidator(subjectName)) {
+                            while (subjects.contains(normalizedSubjectName) || subjectManager.subjectValidator(normalizedSubjectName)) {
                                 System.out.println("La materia ya ha sido seleccionada o no existe. Por favor, elija otra materia.");
                                 System.out.print("Ingrese el nombre de la materia " + i + ": ");
                                 subjectName = scanner.nextLine();
+                                normalizedSubjectName = normalizeString(subjectName);
+
                             }
-                            subjects.add(subjectName);
+                            subjects.add(subjectManager.getSubjectByName(normalizedSubjectName));
                         }
-                        courseManager.addCourse(idCurso, subjects);
+                        courseManager.addCourse(idCurso, subjects,null);
+                        System.out.println("Curso agregado exitosamente.");
                     }
                     else{
                         System.out.println("Hay menos de 3 materias registradas");
@@ -167,12 +190,15 @@ public class CLI {
                     int numHours = scanner.nextInt();
                     scanner.nextLine();
 
-                    subjectManager.addSubject(nameSubject, numHours, numCredits);
+                    subjectManager.addSubject(nameSubject, numHours, numCredits,null);
 
                     break;
                 case 5:
                     showCourses(courseManager);
                     break;
+                case 6:
+                    showSubjects(subjectManager);
+                break;
                 case 7:
                     if (professors.isEmpty()) {
                         System.out.println("No hay profesores registrados.");
