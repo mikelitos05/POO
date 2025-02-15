@@ -3,6 +3,7 @@ package edu.poo.actividad4.ui;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -14,12 +15,13 @@ import edu.poo.actividad4.process.SubjectManager;
 public class CLI {
 
     static Language language = new Language();
+    static List<Professor> professors = new ArrayList<>();
 
     /**
      * Metodo que se encarga de mostrar el menu
      */
     public static void showMenu(){
-        
+
         System.out.println(language.MENU_OPC1);
         System.out.println(language.MENU_OPC2);
         System.out.println(language.MENU_OPC3);
@@ -29,7 +31,7 @@ public class CLI {
         System.out.println(language.MENU_OPC7);
         System.out.println(language.MENU_OPC8);
         System.out.println(language.MENU_OPC9);
-    
+
     }
 
     /**
@@ -72,7 +74,7 @@ public class CLI {
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(normalized).replaceAll("").toLowerCase();
     }
-    
+
     public static void runApp(){
         SubjectManager subjectManager = new SubjectManager();
         CourseManager courseManager = new CourseManager();
@@ -99,8 +101,7 @@ public class CLI {
                     System.out.println("Ingrese el nombre del profesor: ");
                     String name = scanner.nextLine();
 
-                    System.out.print("Ingrese el salario por hora: ");
-                    double hourlySalary = scanner.nextDouble();
+                    double hourlySalary = 10;
 
                     System.out.println("Ingrese el numero de materias que tendra el profesor: ");
                     int amountOfSubjects = scanner.nextInt();
@@ -110,6 +111,9 @@ public class CLI {
 
                     // Calculate salary
                     double totalSalary = ProfessorManager.calculateSalary(professor);
+
+                    // Add professor to the list
+                    professors.add(professor);
 
                     // Display result
                     System.out.println("El salario total del profesor " + professor.getName() + " es: " + totalSalary);
@@ -124,8 +128,8 @@ public class CLI {
                     System.out.println("Ingrese la edad del alumno: ");
                     int edadAlumno = scanner.nextInt();
                     System.out.println("Ingrese el curso del alumno: ");
-                    //Lista del curso del alumno 
-                break;
+                    //Lista del curso del alumno
+                    break;
                 case 3:
                     if(subjectManager.getSubjects().size() >= 3){
                         System.out.print("\nIngrese la clave del curso: ");
@@ -149,10 +153,10 @@ public class CLI {
                     else{
                         System.out.println("Hay menos de 3 materias registradas");
                     }
-                    
 
 
-                break;
+
+                    break;
                 case 4:
                     System.out.println("Ingrese el nombre de la materia: ");
                     String nameSubject = scanner.nextLine();
@@ -164,14 +168,26 @@ public class CLI {
                     scanner.nextLine();
 
                     subjectManager.addSubject(nameSubject, numHours, numCredits);
-                    
-                break;
+
+                    break;
                 case 5:
                     showCourses(courseManager);
-                break;
-                case 6:
-                    showSubjects(subjectManager);
-                break;
+                    break;
+                case 7:
+                    if (professors.isEmpty()) {
+                        System.out.println("No hay profesores registrados.");
+                    } else {
+                        for (Professor p : professors) {
+                            double salary = ProfessorManager.calculateSalary(p);
+                            System.out.println("Nombre: " + p.getName() + ", Salario por hora: " + p.getHourlySalary() + ", Numero de materias: " + p.getSubjects() + ", Salario semanal: " + salary);
+                        }
+                    }
+                    break;
+
+                default:
+                    System.out.println(language.INVALID_OPTION);
+                    break;
+
 
             }
 
@@ -179,12 +195,11 @@ public class CLI {
         }
 
 
-     
-        
+
+
 
     }
 
 
 
-//lista de materias, salario predefinido para lala
 }
