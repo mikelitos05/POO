@@ -12,11 +12,11 @@ public class Es extends Language{
         MENU_OPC3 = "3. Dar de alta al curso";
         MENU_OPC4 = "4. Dar de alta materia";
         MENU_OPC5 = "5. Mostrar cursos";
-        MENU_OPC6 = "6. Mostrar materia y numero de alumnos";
+        MENU_OPC6 = "6. Mostrar materia y número de alumnos";
         MENU_OPC7 = "7. Mostrar profesor y salario semanal";
         MENU_OPC8 = "8. Cambiar idioma";
         MENU_OPC9 = "9. Salir";
-        INVALID_OPTION = "Opcion invalida";
+        INVALID_OPTION = "OPCIÓN INVALIDA";
         
     }
 
