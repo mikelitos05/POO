@@ -1,5 +1,10 @@
 package edu.poo.actividad_puntos_extras.process;
 
-public class Operador {
+public abstract class Operador{
+
+    public abstract int apply(int a,int b);
+    
+
+
 
 }

@@ -2,15 +2,21 @@ package edu.poo.actividad_puntos_extras.process;
 
 public class DivisionModulo extends Resta {
 
+    @Override
+    public int apply(int b, int a){
+        int resultado = b;
+        while(true){
+            if(super.apply(resultado,a) < 0){
+                return resultado;
+            }
 
-    public int dividirModulo(int a, int b){
-        int resultado = 0;
-        for (resultado = 0; resultado <= b; resultado = resultado + a)
-        if (resultado == b){
-            return 0;
+            resultado = super.apply(resultado,a);
+            
+            if (resultado == 0){
+                return resultado;
+            }
+            
         }
-        return restar(resultado,b);
-        
 
     } 
 

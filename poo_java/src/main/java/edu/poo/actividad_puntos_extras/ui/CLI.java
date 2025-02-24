@@ -5,7 +5,10 @@ import java.util.Scanner;
 
 import edu.poo.actividad_puntos_extras.process.Division;
 import edu.poo.actividad_puntos_extras.process.DivisionModulo;
+import edu.poo.actividad_puntos_extras.process.Logaritmo;
 import edu.poo.actividad_puntos_extras.process.Multiplicacion;
+import edu.poo.actividad_puntos_extras.process.Potencia;
+import edu.poo.actividad_puntos_extras.process.Raiz;
 import edu.poo.actividad_puntos_extras.process.Resta;
 import edu.poo.actividad_puntos_extras.process.Suma;
 
@@ -64,6 +67,10 @@ public class CLI {
         Multiplicacion multiplicacion = new Multiplicacion();
         Division division = new Division();
         DivisionModulo divisionModulo = new DivisionModulo();
+        Potencia potencia = new Potencia();
+        Logaritmo logaritmo = new Logaritmo();
+        Raiz raiz = new Raiz();
+
 
 
         int opcion = 0;
@@ -85,32 +92,39 @@ public class CLI {
                 case 1:
                     num1 = leerNumero(scanner, "Ingrese el primer numero: ");
                     num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
-                    System.out.println(num1 +" + "+ num2 + " = " + suma.sumar(num1, num2));
+                    System.out.println(num1 +" + "+ num2 + " = " + suma.apply(num1, num2));
                 break;
                 case 2:
                     num1 = leerNumero(scanner, "Ingrese el primer numero: ");
                     num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
-                    System.out.println(num1 +" - "+ num2 + " = " + resta.restar(num1, num2));
+                    System.out.println(num1 +" - "+ num2 + " = " + resta.apply(num1, num2));
                 break;
                 case 3:
                     num1 = leerNumero(scanner, "Ingrese el primer numero: ");
                     num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
-                    System.out.println(num1 +" \u00D7 "+ num2 + " = " + multiplicacion.multplicar(num1, num2));
+                    System.out.println(num1 +" \u00D7 "+ num2 + " = " + multiplicacion.apply(num1, num2));
                 break;
                 case 4:
                     num1 = leerNumero(scanner, "Ingrese el primer numero: ");
                     num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
-                    System.out.println(num1 +" / "+ num2 + " = " + division.dividir(num1, num2) + "\nModulo: " + divisionModulo.dividirModulo(num1, num2));
+                    System.out.println(num1 +" / "+ num2 + " = " + division.apply(num1, num2) + "\nModulo: " + divisionModulo.apply(num1, num2));
                 
                 break;
                 case 5:
-                    System.out.println("Potencia");
+                    num1 = leerNumero(scanner, "Ingrese el primer numero: ");
+                    num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
+                    System.out.println(num1 +" elevado a "+ num2 + " es igual a: " + potencia.apply(num1, num2));
                 break;
                 case 6:
-                    System.out.println("Raiz");
+                    num1 = leerNumero(scanner, "Ingrese el primer numero: ");
+                    num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
+                    System.out.println("La raiz de "+ num2 + " con radicando de " + num1 + " = " + raiz.apply(num1, num2));
                 break;
                 case 7:
-                    System.out.println("Logaritmo");
+                    num1 = leerNumero(scanner, "Ingrese el primer numero: ");
+                    num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
+                    System.out.println("Log(" + num1 + ")" + num2 + " = " + logaritmo.apply(num1, num2));
+
                 break;
                 default:
                     System.out.println("Ingrese una opcion valida: ");
