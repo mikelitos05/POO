@@ -6,6 +6,8 @@ import java.util.Scanner;
 import edu.poo.actividad_puntos_extras.process.Division;
 import edu.poo.actividad_puntos_extras.process.DivisionModulo;
 import edu.poo.actividad_puntos_extras.process.Logaritmo;
+import edu.poo.actividad_puntos_extras.process.ModuloLogaritmo;
+import edu.poo.actividad_puntos_extras.process.ModuloRaiz;
 import edu.poo.actividad_puntos_extras.process.Multiplicacion;
 import edu.poo.actividad_puntos_extras.process.Potencia;
 import edu.poo.actividad_puntos_extras.process.Raiz;
@@ -70,7 +72,8 @@ public class CLI {
         Potencia potencia = new Potencia();
         Logaritmo logaritmo = new Logaritmo();
         Raiz raiz = new Raiz();
-
+        ModuloRaiz moduloRaiz = new ModuloRaiz();
+        ModuloLogaritmo moduloLogaritmo = new ModuloLogaritmo();
 
 
         int opcion = 0;
@@ -107,8 +110,11 @@ public class CLI {
                 case 4:
                     num1 = leerNumero(scanner, "Ingrese el primer numero: ");
                     num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
-                    System.out.println(num1 +" / "+ num2 + " = " + division.apply(num1, num2) + "\nModulo: " + divisionModulo.apply(num1, num2));
-                
+                    try {
+                        System.out.println(num1 +" / "+ num2 + " = " + division.apply(num1, num2) + "\nModulo: " + divisionModulo.apply(num1, num2));   
+                    } catch (ArithmeticException e) {
+                        System.out.println(e.getLocalizedMessage());
+                    }
                 break;
                 case 5:
                     num1 = leerNumero(scanner, "Ingrese el primer numero: ");
@@ -118,12 +124,12 @@ public class CLI {
                 case 6:
                     num1 = leerNumero(scanner, "Ingrese el primer numero: ");
                     num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
-                    System.out.println("La raiz de "+ num2 + " con radicando de " + num1 + " = " + raiz.apply(num1, num2));
+                    System.out.println("La raiz de "+ num2 + " con radicando de " + num1 + " = " + raiz.apply(num1, num2) + "\nEl modulo de la raiz es: " + moduloRaiz.apply(num1, num2));
                 break;
                 case 7:
                     num1 = leerNumero(scanner, "Ingrese el primer numero: ");
                     num2 = leerNumero(scanner, "Ingrese el segundo numero: ");
-                    System.out.println("Log(" + num1 + ")" + num2 + " = " + logaritmo.apply(num1, num2));
+                    System.out.println("Log(" + num1 + ")" + num2 + " = " + logaritmo.apply(num1, num2)+"\nEl modulo de el logaritmo es: "+ moduloLogaritmo.apply(num1, num2));
 
                 break;
                 default:

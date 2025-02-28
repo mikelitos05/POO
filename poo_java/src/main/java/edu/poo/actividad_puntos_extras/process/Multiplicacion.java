@@ -2,6 +2,9 @@ package edu.poo.actividad_puntos_extras.process;
 
 public class Multiplicacion extends Suma {
 
+    /**
+     * Metodo que se encarga de multiplicar
+     */
     
     @Override
     public int apply(int a, int b) {
